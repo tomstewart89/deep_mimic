@@ -1,9 +1,9 @@
 import sys
 import pybullet_data
 
-from pybullet_envs.deep_mimic.learning.rl_world import RLWorld
+from learning.rl_world import RLWorld
 from pybullet_utils.arg_parser import ArgParser
-from pybullet_envs.deep_mimic.env.pybullet_deep_mimic_env import PyBulletDeepMimicEnv
+from env.pybullet_deep_mimic_env import PyBulletDeepMimicEnv
 
 
 if __name__ == '__main__':
