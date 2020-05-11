@@ -1,5 +1,5 @@
 from pybullet_utils import pd_controller_stable
-from env import humanoid_pose_interpolator
+from pybullet_envs.deep_mimic.env import humanoid_pose_interpolator
 import math
 
 chest = 1
@@ -20,10 +20,9 @@ jointFrictionForce = 0
 class HumanoidStablePD(object):
 
   def __init__( self, pybullet_client, mocap_data, timeStep, 
-                useFixedBase=True, arg_parser=None):
+                useFixedBase=True, fall_contact_bodies=[]):
     self._pybullet_client = pybullet_client
     self._mocap_data = mocap_data
-    self._arg_parser = arg_parser
     print("LOADING humanoid!")
     flags=self._pybullet_client.URDF_MAINTAIN_LINK_ORDER+self._pybullet_client.URDF_USE_SELF_COLLISION+self._pybullet_client.URDF_USE_SELF_COLLISION_EXCLUDE_ALL_PARENTS
     self._sim_model = self._pybullet_client.loadURDF(
@@ -137,9 +136,6 @@ class HumanoidStablePD(object):
     self._jointDofCounts = [4, 4, 4, 1, 4, 4, 1, 4, 1, 4, 4, 1]
 
     #only those body parts/links are allowed to touch the ground, otherwise the episode terminates
-    fall_contact_bodies = []
-    if self._arg_parser is not None:
-      fall_contact_bodies = self._arg_parser.parse_ints("fall_contact_bodies")
     self._fall_contact_body_parts = fall_contact_bodies
 
     #[x,y,z] base position and [x,y,z,w] base orientation!
